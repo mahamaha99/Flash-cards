@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بطاقات الحروف</title>
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23fff8f0'/%3E%3Crect x='5' y='5' width='42' height='42' rx='10' fill='%23FF6B6B'/%3E%3Crect x='53' y='5' width='42' height='42' rx='10' fill='%23FFD93D'/%3E%3Crect x='5' y='53' width='42' height='42' rx='10' fill='%234D96FF'/%3E%3Crect x='53' y='53' width='42' height='42' rx='10' fill='%236BCB77'/%3E%3Ctext x='26' y='34' font-size='22' text-anchor='middle' fill='white' font-weight='bold'%3Eأ%3C/text%3E%3Ctext x='74' y='34' font-size='22' text-anchor='middle' fill='white' font-weight='bold'%3EA%3C/text%3E%3Ctext x='26' y='82' font-size='22' text-anchor='middle' fill='white' font-weight='bold'%3Eب%3C/text%3E%3Ctext x='74' y='82' font-size='22' text-anchor='middle' fill='white' font-weight='bold'%3EB%3C/text%3E%3C/svg%3E">
+
+<style>
+  :root {
+    --bg: #FFF8F0;
+    --card-bg: #FFFFFF;
+    --accent1: #FF6B6B;
+    --accent2: #FFD93D;
+    --accent3: #6BCB77;
+    --accent4: #4D96FF;
+    --accent5: #FF922B;
+    --text-dark: #2D2D2D;
+    --text-mid: #666;
+    --radius: 28px;
+    --shadow: 0 8px 32px rgba(0,0,0,0.10);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Geeza Pro', 'Arabic UI Text', 'Helvetica Neue', sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 16px 40px;
+    overflow-x: hidden;
+  }
+
+  /* Decorative bubbles */
+  body::before {
+    content: '';
+    position: fixed;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, #FFD93D44 0%, transparent 70%);
+    top: -100px; left: -100px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, #FF6B6B33 0%, transparent 70%);
+    bottom: -80px; right: -80px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header h1 {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--text-dark);
+    line-height: 1.2;
+  }
+
+  .header .subtitle {
+    font-size: 1.05rem;
+    color: var(--text-mid);
+    margin-top: 6px;
+  }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 28px;
+    background: #fff;
+    padding: 6px;
+    border-radius: 50px;
+    box-shadow: var(--shadow);
+    position: relative;
+    z-index: 1;
+  }
+
+  .tab-btn {
+    padding: 10px 28px;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    background: transparent;
+    color: var(--text-mid);
+  }
+
+  .tab-btn.active {
+    background: var(--accent4);
+    color: #fff;
+    box-shadow: 0 4px 16px #4D96FF44;
+  }
+
+  /* Grid */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+    width: 100%;
+    max-width: 720px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Card */
+  .card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px 12px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    position: relative;
+    overflow: hidden;
+    border: 3px solid transparent;
+    animation: popIn 0.35s ease both;
+  }
+
+  .card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.14);
+  }
+
+  .card:active {
+    transform: scale(0.96);
+  }
+
+  /* Color stripe at top */
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+
+  .card:nth-child(5n+1)::before { background: var(--accent1); border-color: var(--accent1); }
+  .card:nth-child(5n+2)::before { background: var(--accent2); border-color: var(--accent2); }
+  .card:nth-child(5n+3)::before { background: var(--accent3); border-color: var(--accent3); }
+  .card:nth-child(5n+4)::before { background: var(--accent4); border-color: var(--accent4); }
+  .card:nth-child(5n+5)::before { background: var(--accent5); border-color: var(--accent5); }
+
+  .card-emoji {
+    font-size: 3rem;
+    line-height: 1;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.12));
+  }
+
+  .card-letter {
+    font-size: 2.4rem;
+    font-weight: 900;
+    color: var(--text-dark);
+    line-height: 1;
+  }
+
+  .card-word {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text-mid);
+    text-align: center;
+    direction: rtl;
+  }
+
+  /* Sound ripple on click */
+  .card.played {
+    animation: pulse 0.3s ease;
+  }
+
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.7) translateY(20px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.08); }
+    100% { transform: scale(1); }
+  }
+
+  /* Single card view (big) */
+  .big-card-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(6px);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .big-card-overlay.show {
+    display: flex;
+  }
+
+  .big-card {
+    background: #fff;
+    border-radius: 40px;
+    padding: 40px 36px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    max-width: 320px;
+    width: 100%;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+    animation: popIn 0.3s ease;
+    position: relative;
+  }
+
+  .big-card-emoji { font-size: 7rem; line-height: 1; }
+  .big-card-letter { font-size: 6rem; font-weight: 900; color: var(--text-dark); }
+  .big-card-word { font-size: 1.4rem; font-weight: 700; color: #444; }
+  .big-card-close {
+    position: absolute;
+    top: 14px; left: 14px;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .big-card-close:hover { background: #e0e0e0; }
+
+  /* Nav arrows */
+  .big-card-nav {
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+  }
+  .nav-btn {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: var(--accent4);
+    color: #fff;
+    font-size: 1.4rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 14px #4D96FF44;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .nav-btn:hover { background: #2b7be0; transform: scale(1.08); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🌟 بطاقات الحروف 🌟</h1>
+  <div class="subtitle">اضغطي على أي بطاقة!</div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showLang('ar')">عربي 🌙</button>
+  <button class="tab-btn" onclick="showLang('en')">English ⭐</button>
+</div>
+
+<div class="cards-grid" id="cardsGrid"></div>
+
+<!-- Big card overlay -->
+<div class="big-card-overlay" id="bigOverlay" onclick="closeBig(event)">
+  <div class="big-card" id="bigCard">
+    <button class="big-card-close" onclick="closeBigDirect()">✕</button>
+    <div class="big-card-emoji" id="bigEmoji"></div>
+    <div class="big-card-letter" id="bigLetter"></div>
+    <div class="big-card-word" id="bigWord"></div>
+    <div class="big-card-nav">
+      <button class="nav-btn" onclick="navigate(-1)">◀</button>
+      <button class="nav-btn" onclick="navigate(1)">▶</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const arabic = [
+  { letter: 'أ', word: 'أسد', emoji: '🦁' },
+  { letter: 'ب', word: 'بطة', emoji: '🦆' },
+  { letter: 'ت', word: 'تفاحة', emoji: '🍎' },
+  { letter: 'ث', word: 'ثعلب', emoji: '🦊' },
+  { letter: 'ج', word: 'جمل', emoji: '🐪' },
+  { letter: 'ح', word: 'حصان', emoji: '🐴' },
+  { letter: 'خ', word: 'خروف', emoji: '🐑' },
+  { letter: 'د', word: 'دب', emoji: '🐻' },
+  { letter: 'ذ', word: 'ذرة', emoji: '🌽' },
+  { letter: 'ر', word: 'رمان', emoji: '🍊' },
+  { letter: 'ز', word: 'زهرة', emoji: '🌸' },
+  { letter: 'س', word: 'سمكة', emoji: '🐟' },
+  { letter: 'ش', word: 'شمس', emoji: '☀️' },
+  { letter: 'ص', word: 'صقر', emoji: '🦅' },
+  { letter: 'ض', word: 'ضفدع', emoji: '🐸' },
+  { letter: 'ط', word: 'طماطم', emoji: '🍅' },
+  { letter: 'ظ', word: 'ظبي', emoji: '🦌' },
+  { letter: 'ع', word: 'عنب', emoji: '🍇' },
+  { letter: 'غ', word: 'غيمة', emoji: '☁️' },
+  { letter: 'ف', word: 'فراشة', emoji: '🦋' },
+  { letter: 'ق', word: 'قطة', emoji: '🐱' },
+  { letter: 'ك', word: 'كلب', emoji: '🐶' },
+  { letter: 'ل', word: 'ليمون', emoji: '🍋' },
+  { letter: 'م', word: 'موزة', emoji: '🍌' },
+  { letter: 'ن', word: 'نجمة', emoji: '⭐' },
+  { letter: 'هـ', word: 'هلال', emoji: '🌙' },
+  { letter: 'و', word: 'وردة', emoji: '🌹' },
+  { letter: 'ي', word: 'يد', emoji: '🖐️' },
+];
+
+const english = [
+  { letter: 'A', word: 'Apple', emoji: '🍎' },
+  { letter: 'B', word: 'Bee', emoji: '🐝' },
+  { letter: 'C', word: 'Cat', emoji: '🐱' },
+  { letter: 'D', word: 'Dog', emoji: '🐶' },
+  { letter: 'E', word: 'Elephant', emoji: '🐘' },
+  { letter: 'F', word: 'Fish', emoji: '🐟' },
+  { letter: 'G', word: 'Giraffe', emoji: '🦒' },
+  { letter: 'H', word: 'Horse', emoji: '🐴' },
+  { letter: 'I', word: 'Ice Cream', emoji: '🍦' },
+  { letter: 'J', word: 'Jellyfish', emoji: '🪼' },
+  { letter: 'K', word: 'Koala', emoji: '🐨' },
+  { letter: 'L', word: 'Lion', emoji: '🦁' },
+  { letter: 'M', word: 'Moon', emoji: '🌙' },
+  { letter: 'N', word: 'Nest', emoji: '🪺' },
+  { letter: 'O', word: 'Orange', emoji: '🍊' },
+  { letter: 'P', word: 'Penguin', emoji: '🐧' },
+  { letter: 'Q', word: 'Queen', emoji: '👸' },
+  { letter: 'R', word: 'Rainbow', emoji: '🌈' },
+  { letter: 'S', word: 'Sun', emoji: '☀️' },
+  { letter: 'T', word: 'Tiger', emoji: '🐯' },
+  { letter: 'U', word: 'Umbrella', emoji: '☂️' },
+  { letter: 'V', word: 'Violin', emoji: '🎻' },
+  { letter: 'W', word: 'Whale', emoji: '🐳' },
+  { letter: 'X', word: 'Xylophone', emoji: '🎵' },
+  { letter: 'Y', word: 'Yak', emoji: '🐂' },
+  { letter: 'Z', word: 'Zebra', emoji: '🦓' },
+];
+
+let currentLang = 'ar';
+let currentIndex = 0;
+let currentData = arabic;
+
+function showLang(lang) {
+  currentLang = lang;
+  currentData = lang === 'ar' ? arabic : english;
+  document.querySelectorAll('.tab-btn').forEach((b, i) => {
+    b.classList.toggle('active', (i === 0 && lang === 'ar') || (i === 1 && lang === 'en'));
+  });
+  document.getElementById('cardsGrid').style.direction = lang === 'ar' ? 'rtl' : 'ltr';
+  renderCards();
+}
+
+function renderCards() {
+  const grid = document.getElementById('cardsGrid');
+  grid.innerHTML = '';
+  currentData.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.animationDelay = (i * 0.03) + 's';
+    card.innerHTML = `
+      <div class="card-emoji">${item.emoji}</div>
+      <div class="card-letter">${item.letter}</div>
+      <div class="card-word">${item.word}</div>
+    `;
+    card.onclick = () => openBig(i);
+    grid.appendChild(card);
+  });
+}
+
+function openBig(index) {
+  currentIndex = index;
+  updateBig();
+  document.getElementById('bigOverlay').classList.add('show');
+}
+
+function updateBig() {
+  const item = currentData[currentIndex];
+  document.getElementById('bigEmoji').textContent = item.emoji;
+  document.getElementById('bigLetter').textContent = item.letter;
+  document.getElementById('bigWord').textContent = item.word;
+  // speak
+  speak(item.word);
+}
+
+function navigate(dir) {
+  currentIndex = (currentIndex + dir + currentData.length) % currentData.length;
+  const card = document.getElementById('bigCard');
+  card.style.animation = 'none';
+  requestAnimationFrame(() => {
+    card.style.animation = 'popIn 0.25s ease';
+  });
+  updateBig();
+}
+
+function closeBig(e) {
+  if (e.target === document.getElementById('bigOverlay')) closeBigDirect();
+}
+
+function closeBigDirect() {
+  document.getElementById('bigOverlay').classList.remove('show');
+}
+
+function speak(text) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.rate = 0.8;
+
+  if (currentLang === 'ar') {
+    // Try to find an Arabic voice explicitly
+    const voices = window.speechSynthesis.getVoices();
+    const arVoice = voices.find(v => v.lang.startsWith('ar')) || null;
+    if (arVoice) {
+      utter.voice = arVoice;
+      utter.lang = arVoice.lang;
+    } else {
+      utter.lang = 'ar-SA';
+    }
+  } else {
+    utter.lang = 'en-US';
+  }
+
+  // iOS Safari sometimes needs a tiny delay after cancel
+  setTimeout(() => window.speechSynthesis.speak(utter), 100);
+}
+
+// Pre-load voices (iOS loads them async)
+if ('speechSynthesis' in window) {
+  window.speechSynthesis.getVoices();
+  window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+}
+
+// keyboard nav
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('bigOverlay').classList.contains('show')) return;
+  if (e.key === 'ArrowRight') navigate(currentLang === 'ar' ? 1 : -1);
+  if (e.key === 'ArrowLeft') navigate(currentLang === 'ar' ? -1 : 1);
+  if (e.key === 'Escape') closeBigDirect();
+});
+
+renderCards();
+</script>
+</body>
+</html>
